@@ -58,7 +58,7 @@ const SortingAlgorithms = () => {
           setValues(events.current.arrays[eventIdx.current]);
           eventIdx.current = eventIdx.current + 1;
         }
-      }, 150 *  Math.exp(-values.length/120));
+      }, 150 *  Math.exp(-values.length/50));
     } else {
       clearInterval(interval);
     }
@@ -101,15 +101,17 @@ const SortingAlgorithms = () => {
     <>
       <div>SortingAlgorithms</div>
       <Box 
-            sx={{ 
-                width: 500,
-                marginLeft: "auto",
-                marginRight: "auto", 
-                }}
-            mt={3} 
-            >
-            
-          <RangeSlider sliderValue={sliderValue} handleChange={handleChangeSliderValue} active={isSortActive}/>
+          sx={{ 
+              width: 500,
+              marginLeft: "auto",
+              marginRight: "auto", 
+              }}
+          mt={3} 
+          >
+          <RangeSlider 
+            sliderValue={sliderValue} 
+            handleChange={handleChangeSliderValue} 
+            active={isSortActive}/>
           <Box sx={{
             display: 'flex',
             justifyContent: 'space-between'
@@ -131,11 +133,18 @@ const SortingAlgorithms = () => {
                 Resume
             </Button>}
             </Box>
-            <SelectSort handleChange={handleChangeSortType} sortType={sortType} types={Object.keys(types)}/>
-          </Box>
-          
+            <SelectSort 
+              handleChange={handleChangeSortType} 
+              sortType={sortType} 
+              types={Object.keys(types)}
+              active={isSortActive}
+              />
+          </Box>     
       </Box>
-      <Boxes values={values} highlightedBars={highlightedBars}/>
+      <Boxes 
+        values={values} 
+        highlightedBars={highlightedBars}
+        />
     </>
     
   )

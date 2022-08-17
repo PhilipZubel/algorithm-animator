@@ -7,12 +7,12 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 
 
-const SelectSort = (props: {sortType: string, handleChange: (params:any)  => void, types: string[]}) => {
+const SelectSort = (props: {sortType: string, handleChange: (params:any)  => void, types: string[], active:boolean}) => {
   
 
   return (
-      <FormControl size="small" >
-        <InputLabel id="demo-simple-select-label" color="primary">Algorithm</InputLabel>
+      <FormControl size="small" disabled={props.active} >
+        <InputLabel id="demo-simple-select-label" color="primary">Algorithms</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
