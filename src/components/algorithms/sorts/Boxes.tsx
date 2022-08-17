@@ -36,6 +36,7 @@ const Boxes = (props : {values:number[], highlightedBars:ColorChange[]}) => {
             mt: 5,
             bgcolor: 'background.paper',
             borderRadius: 1,
+            height: dimensions[1] * 0.6
             }}
         >
         {props.values.map((value:number, idx:number) => {

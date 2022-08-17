@@ -113,5 +113,51 @@ const insertionSort = (arr: number[]) : SortingEvents => {
   }
 }
 
-export { shuffleArray, bubbleSort, selectionSort, insertionSort };
+const mergeSortHelper = (arr: number[], start:number, end:number, arrays:number[][], colorChanges:ColorChange[]): [number,number] => {
+  if(start === end){
+    return [start, end];
+  }
+  let mid = Math.floor((start + end)/2);
+  let leftArray = mergeSortHelper(arr, start, mid, arrays, colorChanges);
+  let rightArray = mergeSortHelper(arr, mid+1, end, arrays, colorChanges);
+  let arr_copy = [...arr];
+
+  let copyIdx = start; 
+  while(leftArray[0] <= leftArray[1] && rightArray[0] <= rightArray[1]){
+    if(arr_copy[leftArray[0]] < arr_copy[rightArray[0]]){
+      arr[copyIdx++] = arr_copy[leftArray[0]++];
+    }else{
+      arr[copyIdx++] = arr_copy[rightArray[0]++];
+    }
+    arrays.push([...arr]);
+    colorChanges.push({valueIndex: copyIdx, timeIndex: arrays.length - 1});
+  }
+  while(leftArray[0] <= leftArray[1]){
+    arr[copyIdx++] = arr_copy[leftArray[0]++];
+    arrays.push([...arr]);
+    colorChanges.push({valueIndex: copyIdx, timeIndex: arrays.length - 1});
+  }
+  while(rightArray[0] <= rightArray[1]){
+    arr[copyIdx++] = arr_copy[rightArray[0]++];
+    arrays.push([...arr]);
+    colorChanges.push({valueIndex: copyIdx, timeIndex: arrays.length - 1});
+  }
+  
+  return [start, end];
+}
+
+const mergeSort = (arr: number[]) : SortingEvents => {
+  let {array, arrays, colorChanges, timeIdx} = intializeValues(arr);
+
+  mergeSortHelper(array, 0, array.length - 1, arrays, colorChanges)
+
+  console.log(arrays)
+
+  return {
+    arrays: arrays,
+    colorChanges: colorChanges,
+  }
+}
+
+export { shuffleArray, bubbleSort, selectionSort, insertionSort, mergeSort };
 export type { SortingEvents, ColorChange };

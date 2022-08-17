@@ -9,12 +9,13 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 import SelectSort from './SelectSort';
 import Boxes from './Boxes';
-import {bubbleSort, shuffleArray, ColorChange, SortingEvents, selectionSort, insertionSort } from './sorts';
+import {bubbleSort, shuffleArray, ColorChange, SortingEvents, selectionSort, insertionSort, mergeSort } from './sorts';
 
 const types: { [name: string]: (params:number[])  => SortingEvents } = {
   "Bubble Sort": bubbleSort,
   "Selection Sort": selectionSort,
   "Insertion Sort": insertionSort,
+  "Merge Sort": mergeSort,
 }
 
 
@@ -59,6 +60,7 @@ const SortingAlgorithms = () => {
           eventIdx.current = eventIdx.current + 1;
         }
       }, 150 *  Math.exp(-values.length/50));
+      // }, 1000)
     } else {
       clearInterval(interval);
     }
