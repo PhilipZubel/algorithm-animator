@@ -43,8 +43,8 @@ const Navbar = () => {
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.2rem',
+              fontWeight: {xs: 500, md: 700},
+              letterSpacing: {s: '0rem', md: '.2rem'},
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -102,7 +102,8 @@ const Navbar = () => {
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.2rem',
+              letterSpacing: {xs: '.1rem', md: '.2rem'},
+              fontSize: {xs: 18, md: 24},
               color: 'inherit',
               textDecoration: 'none',
             }}

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import {BrowserRouter, MemoryRouter} from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { BubbleChartOutlined } from '@mui/icons-material';
-import { bubbleSort, insertionSort, mergeSort, selectionSort, shuffleArray } from './sorts';
+import { bubbleSort, insertionSort, mergeSort, quickSort, selectionSort, shuffleArray } from './sorts';
 
 describe('Testing Sort Algorithms', () => {
 
@@ -37,6 +37,13 @@ describe('Testing Sort Algorithms', () => {
 
     it('test merge sort', () => {
         const generatedArrays = mergeSort(randomArray).arrays;
+        const lastArray = generatedArrays[generatedArrays.length - 1];
+        const sortedArray = randomArray.sort((a,b) =>(a-b))
+        expect(lastArray).toEqual(sortedArray)
+    })
+
+    it('test quick sort', () => {
+        const generatedArrays = quickSort(randomArray).arrays;
         const lastArray = generatedArrays[generatedArrays.length - 1];
         const sortedArray = randomArray.sort((a,b) =>(a-b))
         expect(lastArray).toEqual(sortedArray)

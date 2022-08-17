@@ -9,15 +9,15 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 import SelectSort from './SelectSort';
 import Boxes from './Boxes';
-import {bubbleSort, shuffleArray, ColorChange, SortingEvents, selectionSort, insertionSort, mergeSort } from './sorts';
+import {bubbleSort, shuffleArray, ColorChange, SortingEvents, selectionSort, insertionSort, mergeSort, quickSort } from './sorts';
 
 const types: { [name: string]: (params:number[])  => SortingEvents } = {
+  "Merge Sort": mergeSort,
+  "Quick Sort": quickSort,
   "Bubble Sort": bubbleSort,
   "Selection Sort": selectionSort,
   "Insertion Sort": insertionSort,
-  "Merge Sort": mergeSort,
 }
-
 
 const SortingAlgorithms = () => {
 
@@ -60,7 +60,6 @@ const SortingAlgorithms = () => {
           eventIdx.current = eventIdx.current + 1;
         }
       }, 150 *  Math.exp(-values.length/50));
-      // }, 1000)
     } else {
       clearInterval(interval);
     }
@@ -96,44 +95,48 @@ const SortingAlgorithms = () => {
     events.current = types[sortType](values);
     eventSize.current = events.current.arrays.length;
     handleStart();
-    // setValues(events.current.arrays[events.current.arrays.length - 1])
-  }
+}
   
   return (
     <>
-      <div>SortingAlgorithms</div>
+      <div hidden={true}>SortingAlgorithms</div>
       <Box 
+          id="sort-actions"
           sx={{ 
               width: 500,
               marginLeft: "auto",
               marginRight: "auto", 
+              marginTop: {sx: 0, md: 3}
               }}
-          mt={3} 
+          // mt={3} 
           >
           <RangeSlider 
             sliderValue={sliderValue} 
             handleChange={handleChangeSliderValue} 
             active={isSortActive}/>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}>
-            <Box sx={{}}>
-            <Button sx={{marginRight: 1,}} variant="contained" endIcon={<SortIcon />} onClick={randomizeArray} disabled={isSortActive}>
-                Mix
-            </Button>
-            <Button sx={{marginRight: 1,}} variant="contained" endIcon={<RestartAltIcon />} onClick={resetArray}>
-                Reset
-            </Button>
-            {!isSortActive && <Button sx={{marginRight: 1,}} variant="contained" endIcon={<PlayArrowIcon />} onClick={sortArray}>
-                Play
-            </Button>}
-            {!isSortPaused && <Button variant="contained" endIcon={<StopIcon />} onClick={handlePauseResume}>
-                Stop
-            </Button>}
-            {isSortPaused && isSortActive && <Button variant="contained" endIcon={<PlayCircleOutlineIcon />} onClick={handlePauseResume}>
-                Resume
-            </Button>}
+          <Box 
+            id="sort-actions"
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
+            <Box id="sort-buttons"
+              sx={{display: "flex"}}>
+              <Button sx={{marginRight: 1,}} variant="contained" endIcon={<SortIcon />} onClick={randomizeArray} disabled={isSortActive}>
+                  Mix
+              </Button>
+              <Button sx={{marginRight: 1,}} variant="contained" endIcon={<RestartAltIcon />} onClick={resetArray}>
+                  Reset
+              </Button>
+              {!isSortActive && <Button sx={{marginRight: 1,}} variant="contained" endIcon={<PlayArrowIcon />} onClick={sortArray}>
+                  Play
+              </Button>}
+              {!isSortPaused && <Button variant="contained" endIcon={<StopIcon />} onClick={handlePauseResume}>
+                  Stop
+              </Button>}
+              {isSortPaused && isSortActive && <Button variant="contained" endIcon={<PlayCircleOutlineIcon />} onClick={handlePauseResume}>
+                  Resume
+              </Button>}
             </Box>
             <SelectSort 
               handleChange={handleChangeSortType} 

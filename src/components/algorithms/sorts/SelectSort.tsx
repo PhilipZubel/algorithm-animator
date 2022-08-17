@@ -1,17 +1,12 @@
-import React, {useState} from 'react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-
+import Select from '@mui/material/Select';
 
 const SelectSort = (props: {sortType: string, handleChange: (params:any)  => void, types: string[], active:boolean}) => {
   
-
   return (
-      <FormControl size="small" disabled={props.active} >
+      <FormControl size="small" disabled={props.active}>
         <InputLabel id="demo-simple-select-label" color="primary">Algorithms</InputLabel>
         <Select
           labelId="demo-simple-select-label"

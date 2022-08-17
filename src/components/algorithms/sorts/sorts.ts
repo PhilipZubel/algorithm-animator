@@ -1,5 +1,3 @@
-import { arrayBuffer } from "stream/consumers";
-
 const shuffleArray = (arr: number[]) : number[] => {
     let array = [...arr];
     for (let i = array.length - 1; i > 0; i--) {
@@ -151,13 +149,53 @@ const mergeSort = (arr: number[]) : SortingEvents => {
 
   mergeSortHelper(array, 0, array.length - 1, arrays, colorChanges)
 
-  console.log(arrays)
-
   return {
     arrays: arrays,
     colorChanges: colorChanges,
   }
 }
 
-export { shuffleArray, bubbleSort, selectionSort, insertionSort, mergeSort };
+const quickSortHelper = (arr: number[], start:number, end:number, arrays:number[][], colorChanges:ColorChange[]) => {
+  if(start >= end) return;
+
+  let smallerCount = start;
+  let idx = start;
+  while(idx < end){
+    colorChanges.push({valueIndex: idx, timeIndex: arrays.length - 1});
+    if(arr[idx] < arr[end]){
+      let temp = arr[smallerCount];
+      arr[smallerCount] = arr[idx];
+      arr[idx] = temp;
+      smallerCount++;
+    }
+    arrays.push([...arr])
+    idx++;
+  }
+  
+  let temp = arr[smallerCount];
+  arr[smallerCount] = arr[end];
+  arr[end] = temp;
+  arrays.push([...arr])
+  colorChanges.push({valueIndex: end, timeIndex: arrays.length - 1});
+  colorChanges.push({valueIndex: smallerCount, timeIndex: arrays.length - 1});
+
+  quickSortHelper(arr, start, smallerCount - 1, arrays, colorChanges);
+  quickSortHelper(arr, smallerCount + 1, end, arrays, colorChanges);
+
+}
+
+
+const quickSort = (arr: number[]) : SortingEvents => {
+  let {array, arrays, colorChanges, timeIdx} = intializeValues(arr);
+
+  quickSortHelper(array, 0, array.length - 1, arrays, colorChanges)
+  
+  return {
+    arrays: arrays,
+    colorChanges: colorChanges,
+  }
+}
+
+
+export { shuffleArray, bubbleSort, selectionSort, insertionSort, mergeSort, quickSort };
 export type { SortingEvents, ColorChange };

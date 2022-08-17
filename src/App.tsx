@@ -7,26 +7,40 @@ import {
 } from "react-router-dom";
 
 import Navbar from './components/navbar/Navbar';
-
 import SortingAlgorithms from './components/algorithms/sorts/SortingAlgorithms';
 import ErrorPage from './components/error/ErrorPage';
 import GraphAlgorithms from './components/algorithms/graphs/GraphAlgorithms';
 import TextAlgorithms from './components/algorithms/texts/TextAlgorithms';
+import { createTheme } from '@mui/material/styles';
+import { green, indigo } from '@mui/material/colors';
+import { ThemeProvider } from '@emotion/react';
 
-export const App = () => ( 
+const App = () => {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: indigo[800],
+      },
+      secondary: {
+        main: green[500],
+      },
+    },
+  });
 
-    <>
-    <Navbar/>
-    {/* <Navbar2 /> */}
-    <Routes>
-      <Route path="/sorts" element={<SortingAlgorithms />} />
-      <Route path="/graphs" element={<GraphAlgorithms />} />
-      <Route path="/text" element={<TextAlgorithms />} />
-      <Route path="*" element={<ErrorPage />} />
+  return (
+    <ThemeProvider theme={theme}>
+      <Navbar/>
+      <Routes>
+        <Route path="/sorts" element={<SortingAlgorithms />} />
+        <Route path="/graphs" element={<GraphAlgorithms />} />
+        <Route path="/text" element={<TextAlgorithms />} />
+        <Route path="*" element={<ErrorPage />} />
 
-    </Routes>
-  </>
-)
+      </Routes>
+    </ThemeProvider>
+  )
+    
+  }
 
 export default App;
 
