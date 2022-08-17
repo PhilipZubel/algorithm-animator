@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, SelectChangeEvent } from '@mui/material'
 import React, {useState, useEffect, useRef} from 'react'
 import RangeSlider from './Slider'
 import SortIcon from '@mui/icons-material/Sort';
@@ -9,14 +9,21 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 import SelectSort from './SelectSort';
 import Boxes from './Boxes';
-import {bubbleSort, shuffleArray, ColorChange, SortingEvents } from './sorts';
+import {bubbleSort, shuffleArray, ColorChange, SortingEvents, selectionSort, insertionSort } from './sorts';
+
+const types: { [name: string]: (params:number[])  => SortingEvents } = {
+  "Bubble Sort": bubbleSort,
+  "Selection Sort": selectionSort,
+  "Insertion Sort": insertionSort,
+}
 
 
 const SortingAlgorithms = () => {
 
   const [values, setValues] = useState<number[]>([]);
   const [sliderValue, setSliderValue] = useState<number>(20);
-  
+  const [sortType, setSortType] = useState<string>(Object.keys(types)[0]);
+
   const [isSortActive, setSortActive] = useState<boolean>(false);
   const [isSortPaused, setSortPaused] = useState<boolean>(true);
   
@@ -31,6 +38,10 @@ const SortingAlgorithms = () => {
         setSliderValue(newValue);
     }
   }
+
+  const handleChangeSortType = (event: SelectChangeEvent) => {
+    setSortType(event.target.value as string);
+  };
 
   useEffect(() => {
     setValues(Array.from({length: sliderValue}, (_, index) => index + 1))
@@ -47,7 +58,7 @@ const SortingAlgorithms = () => {
           setValues(events.current.arrays[eventIdx.current]);
           eventIdx.current = eventIdx.current + 1;
         }
-      }, 100 *  Math.exp(-values.length/100));
+      }, 150 *  Math.exp(-values.length/120));
     } else {
       clearInterval(interval);
     }
@@ -80,7 +91,7 @@ const SortingAlgorithms = () => {
   }
 
   const sortArray = () => {
-    events.current = bubbleSort(values);
+    events.current = types[sortType](values);
     eventSize.current = events.current.arrays.length;
     handleStart();
     // setValues(events.current.arrays[events.current.arrays.length - 1])
@@ -120,7 +131,7 @@ const SortingAlgorithms = () => {
                 Resume
             </Button>}
             </Box>
-            <SelectSort/>
+            <SelectSort handleChange={handleChangeSortType} sortType={sortType} types={Object.keys(types)}/>
           </Box>
           
       </Box>

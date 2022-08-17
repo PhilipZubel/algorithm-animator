@@ -5,18 +5,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-const types: string[] = [
-    "Bubble Sort",
-    "Selection Sort",
-    "Insertion Sort"
-]
 
-const SelectSort = () => {
-  const [sortType, setSortType] = useState<string>(types[0]);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSortType(event.target.value as string);
-  };
+const SelectSort = (props: {sortType: string, handleChange: (params:any)  => void, types: string[]}) => {
+  
 
   return (
       <FormControl size="small" >
@@ -24,11 +16,11 @@ const SelectSort = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={sortType}
+          value={props.sortType}
           label="Sorting Algorithm"
-          onChange={handleChange}
+          onChange={props.handleChange}
         >
-            {types.map(sort => {
+            {props.types.map(sort => {
                 return <MenuItem key={sort} value={sort}>{sort}</MenuItem>
             })}
         </Select>
