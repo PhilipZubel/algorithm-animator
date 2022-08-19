@@ -9,11 +9,11 @@ import {
 import Navbar from './components/navbar/Navbar';
 import SortingAlgorithms from './components/algorithms/sorts/SortingAlgorithms';
 import ErrorPage from './components/error/ErrorPage';
-import GraphAlgorithms from './components/algorithms/graphs/GraphAlgorithms';
 import TextAlgorithms from './components/algorithms/texts/TextAlgorithms';
 import { createTheme } from '@mui/material/styles';
 import { green, indigo } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
+import GraphingAlgorithms from './components/algorithms/graphs/GraphingAlgorithms';
 
 const App = () => {
   const theme = createTheme({
@@ -32,7 +32,7 @@ const App = () => {
       <Navbar/>
       <Routes>
         <Route path="/sorts" element={<SortingAlgorithms />} />
-        <Route path="/graphs" element={<GraphAlgorithms />} />
+        <Route path="/graphs" element={<GraphingAlgorithms/>} />
         <Route path="/text" element={<TextAlgorithms />} />
         <Route path="*" element={<ErrorPage />} />
 
