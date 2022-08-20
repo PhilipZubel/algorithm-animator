@@ -9,17 +9,17 @@ import DeleteEdgeForm from './DeleteEdgeForm';
 
 const GraphingAlgorithms = () => {
 
-  const intialGraph: Graph = {
+  const intialGraph = {
     nodes: [
-      // { id: 1, label: "Node 1", title: "" },
-      // { id: 2, label: "Node 2", title: "" },
+      { id: 1, label: "Node 1", title: "" },
+      { id: 2, label: "Node 2", title: "" },
       // { id: 3, label: "Node 3", title: "" },
       // // { id: 4, label: "Node 4", title: "node 4 tootip text" },
       // { id: 5, label: "Node 5", title: "" },
       // { id: 6, label: "Node 6", title: "" }
     ],
     edges: [
-      // { from: 1, to: 2 },
+      { from: 1, to: 2, arrowStrikethrough: false},
       // { from: 1, to: 3 },
       // // { from: 2, to: 4 },
       // { from: 2, to: 5 },

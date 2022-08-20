@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@m
 import React from 'react'
 import {Graph} from './interfaces';
 
-const AddNodeForm = (props: {graph:Graph, removedNode:number, setRemovedNode:(params:any)  => void}, ) => {
+const DeleteNodeForm = (props: {graph:Graph, removedNode:number, setRemovedNode:(params:any)  => void}, ) => {
   return (
     <FormControl>
         <InputLabel id="old-node-label">Node</InputLabel>
@@ -21,4 +21,4 @@ const AddNodeForm = (props: {graph:Graph, removedNode:number, setRemovedNode:(pa
   )
 }
 
-export default AddNodeForm
+export default DeleteNodeForm;
