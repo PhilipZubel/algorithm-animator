@@ -1,31 +1,17 @@
-import { Button, SelectChangeEvent } from '@mui/material';
+import { Button, Grid, SelectChangeEvent } from '@mui/material';
 import React, { useState } from 'react'
 import Dashboard from './Dashboard';
 import {v4 as uuidv4} from 'uuid';
-import {Graph, Edge, Node} from './interfaces';
+import {Graph, Edge, Node, Color} from './interfaces';
 import DeleteNodeForm from './DeleteNodeForm';
 import AddEdgeForm from './AddEdgeForm';
 import DeleteEdgeForm from './DeleteEdgeForm';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
+
+import {intialGraph} from './InitialGraph';
 
 const GraphingAlgorithms = () => {
-
-  const intialGraph = {
-    nodes: [
-      { id: 1, label: "Node 1", title: "" },
-      { id: 2, label: "Node 2", title: "" },
-      // { id: 3, label: "Node 3", title: "" },
-      // // { id: 4, label: "Node 4", title: "node 4 tootip text" },
-      // { id: 5, label: "Node 5", title: "" },
-      // { id: 6, label: "Node 6", title: "" }
-    ],
-    edges: [
-      { from: 1, to: 2, arrowStrikethrough: false},
-      // { from: 1, to: 3 },
-      // // { from: 2, to: 4 },
-      // { from: 2, to: 5 },
-      // { from: 5, to: 6 },
-    ]
-  };
 
   const [graph, setGraph] = useState<Graph>(intialGraph)
   const [graphKey, setGraphKey] = useState<string>(uuidv4());
@@ -82,6 +68,7 @@ const GraphingAlgorithms = () => {
     const newEdge: Edge = {
       from : newEdgeNodes[0],
       to : newEdgeNodes[1],
+      color: {} as Color,
     } 
     const existingEdge = graph.edges.find(edge => edge.from === newEdge.from && edge.to === newEdge.to);
     if(existingEdge !== undefined) return;
@@ -96,7 +83,8 @@ const GraphingAlgorithms = () => {
       const arr = event.target.value.split('-')
       const edge: Edge = {
           from: parseInt(arr[0]),
-          to: parseInt(arr[1])
+          to: parseInt(arr[1]),
+          color: {} as Color,
       }
       setEdgeRemoved(edge);
   };
@@ -114,26 +102,45 @@ const GraphingAlgorithms = () => {
   return (
       <>
       <div hidden={true}>GraphingAlgorithms</div>
-      <Button onClick={addNode}>Add Node</Button>
-      <DeleteNodeForm 
-        graph={graph} 
-        removedNode={removedNode} 
-        setRemovedNode={setRemovedNode}/>
-      <Button onClick={deleteNode}>Delete Node</Button>
-      <AddEdgeForm 
-        nodes={graph.nodes} 
-        newEdgeNodes={newEdgeNodes} 
-        setNewEdgeNodes={setNewEdgeNodes}
-        handleChangeEdgeNodes={handleChangeEdgeNodes} 
-        />
-      <Button onClick={addEdge}>Add Edge</Button>
-      <DeleteEdgeForm 
-        edges={graph.edges}
-        edgeRemoved={edgeRemoved} 
-        handleChangeEdgeRemoved={handleChangeEdgeRemoved}
-        />
-      <Button onClick={deleteEdge}>Delete Edge</Button>
-      <Dashboard graph={graph} graphKey={graphKey}/>
+      <Grid container rowSpacing={1} columnSpacing={1} spacing={2}>
+        <Grid item xs={12} id ="node-section">
+          <Button variant="contained" onClick={addNode} endIcon={<AddIcon />}>
+            Node
+          </Button>
+          <DeleteNodeForm 
+            graph={graph} 
+            removedNode={removedNode} 
+            setRemovedNode={setRemovedNode}/>
+          <Button variant="contained" onClick={deleteNode} endIcon={<ClearIcon />}>
+            Node
+          </Button>
+          </Grid>
+        <Grid item xs={12} id="edge-add">
+          <AddEdgeForm 
+          nodes={graph.nodes} 
+          newEdgeNodes={newEdgeNodes} 
+          setNewEdgeNodes={setNewEdgeNodes}
+          handleChangeEdgeNodes={handleChangeEdgeNodes} 
+          />
+          <Button variant="contained" onClick={addEdge} endIcon={<AddIcon />}>
+            Edge
+          </Button>
+        </Grid>
+        <Grid item xs={12} id="edge-delete">
+          <DeleteEdgeForm 
+            edges={graph.edges}
+            edgeRemoved={edgeRemoved} 
+            handleChangeEdgeRemoved={handleChangeEdgeRemoved}
+          />
+          <Button variant="contained" onClick={deleteEdge} endIcon={<ClearIcon />}>
+          Edge
+          </Button>
+        </Grid>
+      </Grid>
+      <div id="graph-dashboard">
+        <Dashboard graph={graph} graphKey={graphKey}/>
+      </div>
+      
       </>
   )
 }

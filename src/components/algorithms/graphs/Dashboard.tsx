@@ -50,6 +50,9 @@ const Dashboard = (props:{graph:any, graphKey:string}) => {
         console.log(network)
         //  if you want access to vis.js network api you can set the state in a parent component using this property
       }}
+      sx={{
+        border: "2px dotted",
+      }}
     />
   )
 }

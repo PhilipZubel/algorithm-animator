@@ -16,8 +16,8 @@ const AddEdgeForm = (props: {
     }) => {
 
     return (
-    <div>
-        <FormControl sx={{ m: 1, width: 200 }}>
+    <>
+        <FormControl sx={{width: 210}} size="small">
         <InputLabel id="demo-multiple-chip-label">Add Edge</InputLabel>
         <Select
             labelId="demo-multiple-chip-label"
@@ -39,12 +39,12 @@ const AddEdgeForm = (props: {
                 key={node.id}
                 value={node.id}
             >
-                {node.label}
+            {node.label}
             </MenuItem>
             ))}
         </Select>
         </FormControl>
-    </div>
+    </>
     );
 }
 

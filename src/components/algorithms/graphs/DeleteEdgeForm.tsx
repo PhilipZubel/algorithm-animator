@@ -9,8 +9,7 @@ const DeleteEdgeForm = (props: {
     }) => {
 
     return (
-        <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
+        <FormControl sx={{width: 120}} size="small">
             <InputLabel id="delete-edge-label">Delete Edge</InputLabel>
             <Select
                 labelId="delete-edge-label"
@@ -26,7 +25,6 @@ const DeleteEdgeForm = (props: {
             })}
             </Select>
         </FormControl>
-        </Box>
     );
 }
 

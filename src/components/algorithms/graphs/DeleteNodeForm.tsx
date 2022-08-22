@@ -4,8 +4,8 @@ import {Graph} from './interfaces';
 
 const DeleteNodeForm = (props: {graph:Graph, removedNode:number, setRemovedNode:(params:any)  => void}, ) => {
   return (
-    <FormControl>
-        <InputLabel id="old-node-label">Node</InputLabel>
+    <FormControl sx={{ minWidth: 120 }} size="small">
+        <InputLabel id="old-node-label">Delete</InputLabel>
         <Select
           labelId="old-node-label"
           id="old-node-select"
