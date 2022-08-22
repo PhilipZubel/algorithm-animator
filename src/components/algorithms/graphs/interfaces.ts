@@ -2,15 +2,8 @@ interface Node {
     id: number,
     label: string,
     title: string,
+    color: string,
   }
-
-interface Color {
-  color: string,
-  highlight: string,
-  hover:  string,
-  inherit: string,
-  opacity: number,
-}
 
 interface Edge {
   from: number,
@@ -21,6 +14,14 @@ interface Edge {
 interface Graph {
   nodes: Node[],
   edges: Edge[],
+}
+
+interface Color {
+  color: string,
+  highlight: string,
+  hover:  string,
+  inherit: string,
+  opacity: number,
 }
 
 

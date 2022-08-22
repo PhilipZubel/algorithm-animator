@@ -10,13 +10,13 @@ const color: Color = {
 
 const intialGraph: Graph = {
     nodes: [
-        { id: 1, label: "Node 1", title: "" },
-        { id: 2, label: "Node 2", title: "" },
-        { id: 3, label: "Node 3", title: "" },
-        { id: 4, label: "Node 4", title: "" },
-        { id: 5, label: "Node 5", title: "" },
-        { id: 6, label: "Node 6", title: "" },
-        { id: 7, label: "Node 7", title: "" },
+        { id: 1, label: "Node 1", title: "", color: "green" },
+        { id: 2, label: "Node 2", title: "", color: "green" },
+        { id: 3, label: "Node 3", title: "", color: "green" },
+        { id: 4, label: "Node 4", title: "", color: "green" },
+        { id: 5, label: "Node 5", title: "", color: "green" },
+        { id: 6, label: "Node 6", title: "", color: "green" },
+        { id: 7, label: "Node 7", title: "", color: "green" },
     ],
     edges: [
         { from: 1, to: 2,  color: color},

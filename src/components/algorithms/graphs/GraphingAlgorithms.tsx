@@ -1,8 +1,9 @@
 import { Button, Grid, SelectChangeEvent } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Dashboard from './Dashboard';
 import {v4 as uuidv4} from 'uuid';
 import {Graph, Edge, Node, Color} from './interfaces';
+import {Event} from './Algorithms'
 import DeleteNodeForm from './DeleteNodeForm';
 import AddEdgeForm from './AddEdgeForm';
 import DeleteEdgeForm from './DeleteEdgeForm';
@@ -10,6 +11,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import {intialGraph} from './InitialGraph';
+import { breadthFirstTraversal } from './Algorithms';
+
 
 const GraphingAlgorithms = () => {
 
@@ -18,6 +21,98 @@ const GraphingAlgorithms = () => {
   const [removedNode, setRemovedNode] = useState<number>(-1);
   const [newEdgeNodes, setNewEdgeNodes] = useState<number[]>([]);
   const [edgeRemoved, setEdgeRemoved] = useState<Edge>({} as Edge);
+  const events = useRef<Event[]>([])
+
+  // useEffect(() => {
+  //   if(events.length > 0){
+  //     startSimulation()
+  //   }  
+  // }, [events])
+
+  const startSimulation = () => {
+    if(events.current.length > 0) {
+      const lastEvent = events.current[events.current.length - 1].time;
+      for(let i=0; i<=lastEvent; i++){
+        setTimeout(() => getCurrentEvents(i), 1000 * i);
+      }
+        // setTimeout(getCurrentEvents, 1000);
+    }
+    
+  }
+  const printHello = () => {
+    console.log("hiya")
+  }
+
+  const getCurrentEvents = (curTime: number) => {
+    let isCurTime = true;
+    let curEvents = events.current.filter(e => e.time <= curTime);
+    changeColor(curEvents)
+  }
+
+
+  // useEffect(() => {
+  //   let interval:any = null;
+  //   if(events.length > 0){
+  //     for(let i=0; i< 5; i++){
+  //       let curEvents = [events[eventIdx.current++]]
+  //       changeColor(curEvents)
+  //       setTimeout(function() {
+  //         console.log("Good Night!");
+  //       }, 1000);
+  //     }
+  //   }
+    
+
+  //   // if(events.length > 0 && eventIdx.current < 5){
+  //   //   let time = 0;
+  //   //   interval = setInterval(() =>{
+  //   //     if(eventIdx.current === temp) {
+  //   //       clearInterval(interval)
+  //   //     }
+  //   //     let curEvents = [events[eventIdx.current++]]
+  //   //     changeColor(curEvents)
+  //   //   }, 1000)
+  //   // }
+  //   // if(events.length > 0){
+  //   //   let time = events[eventIdx.current].time;
+  //   //   interval = setInterval(() => {
+  //   //     let isCurTime = true;
+  //   //     let curEvents: Event[] = [];
+  //   //     while(flag && events.length > eventIdx.current){
+  //   //       const event = events[eventIdx.current];
+  //   //       if(event.time === time){
+  //   //         curEvents.push(event)
+  //   //         eventIdx.current++;
+  //   //       }else{
+  //   //         flag = false;
+  //   //       }
+  //   //     }
+  //   //     changeColor(curEvents);
+  //   //     time++;
+  //   //     console.log(events.length, eventIdx.current)
+  //   //     if(curEvents.length === 0 || events.length <= eventIdx.current){
+  //   //       clearInterval(interval);
+  //   //       eventIdx.current = 0;
+  //   //     }
+  //   //   }, 1000)
+  //   // }
+  // },[events])
+
+  const changeColor = (curEvents: Event[]) => {
+    console.log("hello") 
+    console.log(graph.nodes)
+    let newNodes: Node[] = JSON.parse(JSON.stringify(graph.nodes));
+    curEvents.forEach(e => {
+      let element: Node|undefined = newNodes.find(node => node.id === e.id);
+      if(element){
+        element.color = e.color
+      }
+    })
+    // newGraph.nodes[temp.current].color = "blue";
+    // console.log(graph)
+    // temp.current++;
+    setGraph({nodes:newNodes, edges: graph.edges}) 
+  }
 
   const updateGraph = () => {
     setGraphKey(uuidv4())
@@ -30,11 +125,11 @@ const GraphingAlgorithms = () => {
     const newNode: Node = {
       id: newId,
       label: `Node ${newId}`,
-      title: ""
+      title: "",
+      color: "",
     }
     let newNodes = [...graph.nodes, newNode];
     setGraph({nodes:newNodes, edges: graph.edges}) 
-    updateGraph();
   }
 
   const deleteNode = () => {
@@ -80,13 +175,13 @@ const GraphingAlgorithms = () => {
   }
 
   const handleChangeEdgeRemoved = (event: SelectChangeEvent) => {
-      const arr = event.target.value.split('-')
-      const edge: Edge = {
-          from: parseInt(arr[0]),
-          to: parseInt(arr[1]),
-          color: {} as Color,
-      }
-      setEdgeRemoved(edge);
+    const arr = event.target.value.split('-')
+    const edge: Edge = {
+        from: parseInt(arr[0]),
+        to: parseInt(arr[1]),
+        color: {} as Color,
+    }
+    setEdgeRemoved(edge);
   };
 
   const deleteEdge = () => {
@@ -97,6 +192,13 @@ const GraphingAlgorithms = () => {
     setGraph({nodes: graph.nodes, edges: newEdges})
     updateGraph();
     setEdgeRemoved({} as Edge);
+  }
+
+  const startAlgorithm = () => {
+    events.current = breadthFirstTraversal(JSON.parse(JSON.stringify(graph)), 1)
+    console.log(events.current)
+    startSimulation();
+    // setEvents(events);
   }
   
   return (
@@ -137,6 +239,7 @@ const GraphingAlgorithms = () => {
           </Button>
         </Grid>
       </Grid>
+      <Button onClick={startAlgorithm}>Start</Button>
       <div id="graph-dashboard">
         <Dashboard graph={graph} graphKey={graphKey}/>
       </div>

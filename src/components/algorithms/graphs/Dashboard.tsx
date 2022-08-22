@@ -12,11 +12,11 @@ const Dashboard = (props:{graph:any, graphKey:string}) => {
     edges: {
       color: "#000000",
       width: 1,
-      arrows: {
-        to: {
-          enabled: false,
-        },
-      }
+      // arrows: {
+      //   to: {
+      //     enabled: false,
+      //   },
+      // }
     },
     height: "500px",
     nodes: {

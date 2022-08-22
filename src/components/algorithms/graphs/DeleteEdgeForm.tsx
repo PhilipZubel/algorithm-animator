@@ -8,20 +8,22 @@ const DeleteEdgeForm = (props: {
     handleChangeEdgeRemoved: (arg0: SelectChangeEvent) => void
     }) => {
 
+    let value = props.edgeRemoved.from ?`${props.edgeRemoved.from}-${props.edgeRemoved.to}`:''
+
     return (
         <FormControl sx={{width: 120}} size="small">
             <InputLabel id="delete-edge-label">Delete Edge</InputLabel>
             <Select
                 labelId="delete-edge-label"
                 id="delete-edge-select"
-                value={`${props.edgeRemoved.from}-${props.edgeRemoved.to}`}
+                value={value}
                 label="Delete Edge"
                 onChange={props.handleChangeEdgeRemoved}
             >
             {props.edges.map( e => {
                 const edge = `${e.from}-${e.to}`
                 const edgeSpaced = `${e.from} - ${e.to}`
-                return  <MenuItem value={edge}>{edgeSpaced}</MenuItem>
+                return  <MenuItem key={edge} value={edge}>{edgeSpaced}</MenuItem>
             })}
             </Select>
         </FormControl>
