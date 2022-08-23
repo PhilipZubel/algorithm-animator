@@ -1,17 +1,11 @@
 import {Graph, Color} from './Interfaces'
 
-// const color: Color = {
-//     color: '#ff4141',
-//     highlight: '#ff4141',
-//     hover: '#ff4141',
-//     inherit: 'from',
-//     opacity: 1.0,
-// }
+import { indigo, blue } from '@mui/material/colors';
 
 const COLORS = {
-    default: "green",
-    upcomming: "yellow",
-    visited: "red"
+    default: indigo[400],
+    upcomming: blue[300],
+    visited: blue[800],
 }
 
 const intialGraph: Graph = {

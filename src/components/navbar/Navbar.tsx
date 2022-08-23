@@ -13,8 +13,8 @@ import AnimationIcon from '@mui/icons-material/Animation';
 
 import { Link } from 'react-router-dom';
 
-const pages = ['Sorting', 'Graphing', 'Text']
-const urls = ['/sorts', 'graphs', '/text']
+const pages = ['Sorting', 'Graphing']
+const urls = ['/sorts', '/graphs']
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
