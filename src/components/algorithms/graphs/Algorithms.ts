@@ -1,4 +1,6 @@
 import {Graph} from './interfaces'
+import {COLORS} from './InitialGraph'
+import { DefaultDeserializer } from 'v8';
 
 interface SearchEdge {
     from: number,
@@ -11,8 +13,6 @@ interface Event {
     time: number;
 }
 
-const VISITED = "red";
-const UPCOMMING = "yellow";
 
 class BreadthFirstTraversal {
     private edges: SearchEdge[];
@@ -35,8 +35,6 @@ class BreadthFirstTraversal {
         this.eventTime = 0;
         this.addUpcommingdNode(start);
         this.eventTime++;
-        
-        
     }
 
     isSearchDone(): boolean{
@@ -58,7 +56,7 @@ class BreadthFirstTraversal {
             this.visitedNodes.push(node); 
             this.events.push({
                 id: node,
-                color: VISITED,
+                color: COLORS.visited,
                 time: this.eventTime,
             })
         }
@@ -69,7 +67,7 @@ class BreadthFirstTraversal {
             this.upcommingNodes.push(node);
             this.events.push({
                 id: node,
-                color: UPCOMMING,
+                color: COLORS.upcomming,
                 time: this.eventTime,
             })
         }
@@ -83,16 +81,10 @@ class BreadthFirstTraversal {
 
     }
 
-    getAllEvetns(): Event[] {
+    getAllEvents(): Event[] {
         return JSON.parse(JSON.stringify(this.events));
     }
 
-    // printNodes() {
-    //     console.log("visited")
-    //     console.log(this.visitedNodes)
-    //     console.log("upcomming")
-    //     console.log(this.upcommingNodes)
-    // }
 }
 
 const breadthFirstTraversal = (graph: Graph, startingEdge: number) => {
@@ -101,9 +93,92 @@ const breadthFirstTraversal = (graph: Graph, startingEdge: number) => {
         bft.addEvents();
         // bft.printNodes()
     }
-    return bft.getAllEvetns();
+    return bft.getAllEvents();
 }
 
-export { breadthFirstTraversal };
+class DepthFirstSearch {
+    private edges: SearchEdge[];
+    visitedNodes: number[];
+    upcommingNodes: number[];
+    
+    private events: Event[];
+    private eventTime: number;
+
+    constructor(graph: Graph, start: number){
+        this.edges = graph.edges.map(edge => {
+            return {
+                from: edge.from,
+                to: edge.to,
+            }
+        })
+        this.visitedNodes = [];
+        this.upcommingNodes = [];
+        this.events = [];
+        this.eventTime = 0;
+        this.addUpcommingdNode(start);
+        this.eventTime++;
+    }
+
+    addVisitedNode(){
+        const node = this.upcommingNodes.shift();
+        if(node){
+            this.visitedNodes.push(node); 
+            this.events.push({
+                id: node,
+                color: COLORS.visited,
+                time: this.eventTime,
+            })
+        }
+
+    }
+
+    addUpcommingdNode(node: number){
+        if(this.visitedNodes.includes(node)) return;
+        const idx = this.upcommingNodes.indexOf(node);
+        if(idx !== -1){
+            this.upcommingNodes.splice(idx, 1);
+        }
+        this.upcommingNodes.unshift(node);
+        this.events.push({
+            id: node,
+            color: COLORS.upcomming,
+            time: this.eventTime,
+        })
+
+    }
+
+    isSearchDone(): boolean{
+        // const curNode = this.upcommingNodes[0];
+        return !this.upcommingNodes[0];
+    }
+
+    getNextNodes(): number[] {
+        const curNode = this.upcommingNodes[0];
+        return this.edges
+            .filter(e => e.from === curNode && !this.visitedNodes.includes(e.to))
+            .map(e => e.to)      
+    }
+
+    addEvents(): void {
+        const nextNodes = this.getNextNodes();
+        this.addVisitedNode()
+        nextNodes.forEach(node => this.addUpcommingdNode(node)) 
+        this.eventTime++;   
+    }
+
+    getAllEvents(): Event[] {
+        return JSON.parse(JSON.stringify(this.events));
+    }
+}
+
+const depthFirstSearch = (graph: Graph, startingEdge: number) => {
+    const dfs = new DepthFirstSearch(graph, startingEdge);
+    while(!dfs.isSearchDone()){
+        dfs.addEvents();
+    }
+    return dfs.getAllEvents()
+}
+
+export { breadthFirstTraversal, depthFirstSearch };
 export type { Event };
 

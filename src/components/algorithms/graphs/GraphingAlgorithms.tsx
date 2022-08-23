@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import Dashboard from './Dashboard';
 import {v4 as uuidv4} from 'uuid';
 import {Graph, Edge, Node, Color} from './interfaces';
-import {Event} from './Algorithms'
+import {depthFirstSearch, Event} from './Algorithms'
 import DeleteNodeForm from './DeleteNodeForm';
 import AddEdgeForm from './AddEdgeForm';
 import DeleteEdgeForm from './DeleteEdgeForm';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import {intialGraph} from './InitialGraph';
+import {COLORS, intialGraph} from './InitialGraph';
 import { breadthFirstTraversal } from './Algorithms';
 
 
@@ -38,9 +38,6 @@ const GraphingAlgorithms = () => {
         // setTimeout(getCurrentEvents, 1000);
     }
     
-  }
-  const printHello = () => {
-    console.log("hiya")
   }
 
   const getCurrentEvents = (curTime: number) => {
@@ -99,8 +96,6 @@ const GraphingAlgorithms = () => {
   // },[events])
 
   const changeColor = (curEvents: Event[]) => {
-    console.log("hello") 
-    console.log(graph.nodes)
     let newNodes: Node[] = JSON.parse(JSON.stringify(graph.nodes));
     curEvents.forEach(e => {
       let element: Node|undefined = newNodes.find(node => node.id === e.id);
@@ -126,10 +121,11 @@ const GraphingAlgorithms = () => {
       id: newId,
       label: `Node ${newId}`,
       title: "",
-      color: "",
+      color: COLORS.default,
     }
     let newNodes = [...graph.nodes, newNode];
     setGraph({nodes:newNodes, edges: graph.edges}) 
+    updateGraph()
   }
 
   const deleteNode = () => {
@@ -195,10 +191,16 @@ const GraphingAlgorithms = () => {
   }
 
   const startAlgorithm = () => {
-    events.current = breadthFirstTraversal(JSON.parse(JSON.stringify(graph)), 1)
-    console.log(events.current)
+    events.current = depthFirstSearch(JSON.parse(JSON.stringify(graph)), 1)
+    // console.log(events.current)
     startSimulation();
     // setEvents(events);
+  }
+
+  const resetColors = () => {
+    let nodes: Node[] =JSON.parse(JSON.stringify(graph.nodes));
+    nodes.map( node => node.color = COLORS.default)
+    setGraph({nodes: nodes, edges: graph.edges})
   }
   
   return (
@@ -240,6 +242,7 @@ const GraphingAlgorithms = () => {
         </Grid>
       </Grid>
       <Button onClick={startAlgorithm}>Start</Button>
+      <Button onClick={resetColors}>Reset</Button>
       <div id="graph-dashboard">
         <Dashboard graph={graph} graphKey={graphKey}/>
       </div>
