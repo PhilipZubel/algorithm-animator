@@ -2,7 +2,7 @@ import { Button, Grid, SelectChangeEvent } from '@mui/material';
 import { useRef, useState } from 'react'
 import Dashboard from './Dashboard';
 import {v4 as uuidv4} from 'uuid';
-import {Graph, Edge, Node, Color} from './interfaces';
+import {Graph, Edge, Node, Color} from './Interfaces';
 import {depthFirstSearch, breadthFirstTraversal, Event} from './Algorithms'
 import DeleteNodeForm from './DeleteNodeForm';
 import AddEdgeForm from './AddEdgeForm';
@@ -10,6 +10,7 @@ import DeleteEdgeForm from './DeleteEdgeForm';
 
 import {COLORS, intialGraph} from './InitialGraph';
 import AlgorithmSelectorForm from './AlgorithmSelectorForm';
+import SelectStartNodeForm from './SelectStartNodeForm';
 
 const algorithms: {[key: string]: any} = {
   "Breadth First Traversal": breadthFirstTraversal,
@@ -24,12 +25,20 @@ const GraphingAlgorithms = () => {
   const [newEdgeNodes, setNewEdgeNodes] = useState<number[]>([0,0]);
   const [edgeRemoved, setEdgeRemoved] = useState<Edge>({} as Edge);
   const [algorithm, setAlgorithm] = useState<string>(Object.keys(algorithms)[0]);
+  const [startNode, setStartNode] = useState<number>(-1);
+  const [isRunning, setRunning] = useState<boolean>(false);
   const events = useRef<Event[]>([]);
+
+
+  useState(() => {
+    setStartNode(graph.nodes[0].id ?? -1)
+  })
 
   const startSimulation = () => {
     const getCurrentEvents = (curTime: number) => {
       let curEvents = events.current.filter(e => e.time <= curTime);
       changeColor(curEvents)
+      if(curEvents.length === events.current.length) setRunning(false);
     }
 
     const changeColor = (curEvents: Event[]) => {
@@ -43,6 +52,7 @@ const GraphingAlgorithms = () => {
       setGraph({nodes:newNodes, edges: graph.edges}) 
     }
 
+    setRunning(true);
     if(events.current.length > 0) {
       const lastEvent = events.current[events.current.length - 1].time;
       for(let i=0; i<=lastEvent; i++){
@@ -138,7 +148,8 @@ const GraphingAlgorithms = () => {
 
   const startAlgorithm = () => {
     if(algorithm === "") return;
-    events.current = algorithms[algorithm](JSON.parse(JSON.stringify(graph)), 1)
+    if(startNode === -1) return;
+    events.current = algorithms[algorithm](JSON.parse(JSON.stringify(graph)), startNode)
     startSimulation();
   }
 
@@ -160,18 +171,23 @@ const GraphingAlgorithms = () => {
         my={2}
         >
         <Grid item xs={12} sm={4} lg={3} className="algorithms-col" >
-          <Button variant="outlined" onClick={addNode} sx={{mb:1}}>
+          <Button 
+            variant="outlined" 
+            onClick={addNode} 
+            sx={{mb:1}}
+            disabled={isRunning}>
             Add Node
           </Button>
           <DeleteNodeForm 
             graph={graph} 
             removedNode={removedNode} 
-            setRemovedNode={setRemovedNode}/>
+            setRemovedNode={setRemovedNode}
+            isRunning={isRunning}/>
           <Button 
             variant="outlined" 
             onClick={deleteNode}
             sx={{mb:2}}
-            disabled={removedNode === -1}>
+            disabled={removedNode === -1 || isRunning}>
             Delete Node
           </Button>
         </Grid>
@@ -181,12 +197,13 @@ const GraphingAlgorithms = () => {
             newEdgeNodes={newEdgeNodes} 
             setNewEdgeNodes={setNewEdgeNodes}
             handleChangeEdgeNodes={handleChangeEdgeNodes} 
+            isRunning={isRunning}
             />
           <Button 
             variant="outlined" 
             onClick={addEdge}
             sx={{mb:2}}
-            disabled={newEdgeNodes[0] === 0 || newEdgeNodes[1] === 0}>
+            disabled={newEdgeNodes[0] === 0 || newEdgeNodes[1] === 0 || isRunning}>
             Add Edge
           </Button>
         </Grid>
@@ -195,23 +212,40 @@ const GraphingAlgorithms = () => {
               edges={graph.edges}
               edgeRemoved={edgeRemoved} 
               handleChangeEdgeRemoved={handleChangeEdgeRemoved}
+              isRunning={isRunning}
             />
           <Button 
             variant="outlined" 
             onClick={deleteEdge}
-            sx={{mb:2}}
-            disabled={edgeRemoved.from === undefined}>
+            sx={{mb:1}}
+            disabled={edgeRemoved.from === undefined || isRunning}>
           Delete Edge
           </Button>
+          <SelectStartNodeForm 
+            nodes={graph.nodes} 
+            startNode={startNode} 
+            setStartNode={(num:number) => setStartNode(num)}
+            isRunning={isRunning}/>
         </Grid>
         <Grid item xs={6} sm={4} lg={3} className="algorithms-col">
         <AlgorithmSelectorForm 
           value={algorithm} 
           items={Object.keys(algorithms)} 
-          setAlgorithm={handleChangeAlgorithm}/>
+          setAlgorithm={handleChangeAlgorithm}
+          isRunning={isRunning}/>
           <div id="graph-buttons">
-            <Button onClick={startAlgorithm} variant="contained">Start</Button>
-            <Button onClick={resetColors} variant="contained">Reset</Button>
+            <Button 
+              onClick={startAlgorithm} 
+              variant="contained"
+              disabled={isRunning}>
+                Start
+            </Button>
+            <Button 
+              onClick={resetColors} 
+              variant="contained"
+              disabled={isRunning}>
+              Reset
+            </Button>
           </div>
         </Grid>
       </Grid>

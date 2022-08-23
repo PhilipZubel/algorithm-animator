@@ -18,7 +18,7 @@ const Dashboard = (props:{graph:any, graphKey:string}) => {
       //   },
       // }
     },
-    height: "500px",
+    height: `${Math.round(window.innerHeight * 0.6)}px`,
     nodes: {
       shape: "circle",
       color: "#283593",

@@ -1,4 +1,4 @@
-import {Graph, Color} from './interfaces'
+import {Graph, Color} from './Interfaces'
 
 // const color: Color = {
 //     color: '#ff4141',

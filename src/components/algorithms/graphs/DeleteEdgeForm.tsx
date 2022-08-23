@@ -1,10 +1,11 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import {Edge} from './interfaces'
+import {Edge} from './Interfaces'
 
 const DeleteEdgeForm = (props: {
     edges: Edge[], 
     edgeRemoved: Edge, 
-    handleChangeEdgeRemoved: (arg0: SelectChangeEvent) => void
+    handleChangeEdgeRemoved: (arg0: SelectChangeEvent) => void,
+    isRunning: boolean,
     }) => {
 
     let value = props.edgeRemoved.from ?`${props.edgeRemoved.from}-${props.edgeRemoved.to}`:''
@@ -18,6 +19,7 @@ const DeleteEdgeForm = (props: {
                 value={value}
                 label="Delete Edge"
                 onChange={props.handleChangeEdgeRemoved}
+                disabled={props.isRunning}
             >
             {props.edges.map( e => {
                 const edge = `${e.from}-${e.to}`

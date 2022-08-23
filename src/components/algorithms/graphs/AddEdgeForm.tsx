@@ -2,7 +2,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import {Node} from './interfaces'
+import {Node} from './Interfaces'
 
 
 const AddEdgeForm = (props: {
@@ -10,6 +10,7 @@ const AddEdgeForm = (props: {
     newEdgeNodes:number[], 
     setNewEdgeNodes: (arg0: any) => void, 
     handleChangeEdgeNodes : (idx: number, nodeId: number) => void,
+    isRunning: boolean,
     }) => {
 
     const handleChangeEdgeFrom = (event: SelectChangeEvent) => {
@@ -22,7 +23,6 @@ const AddEdgeForm = (props: {
         const id = parseInt(event.target.value);
         props.handleChangeEdgeNodes(1, id);
     }
-    
 
     return (
     <>
@@ -34,6 +34,7 @@ const AddEdgeForm = (props: {
             value={props.newEdgeNodes[0] === 0 ? "" : props.newEdgeNodes[0].toString()}
             label="From"
             onChange={handleChangeEdgeFrom}
+            disabled={props.isRunning}
         >
             {props.nodes.map(node => 
             <MenuItem
@@ -54,6 +55,7 @@ const AddEdgeForm = (props: {
             value={props.newEdgeNodes[1] === 0 ? "" : props.newEdgeNodes[1].toString()}
             label="To"
             onChange={handleChangeEdgeTo}
+            disabled={props.isRunning}
         >
             {props.nodes.map(node => 
             <MenuItem

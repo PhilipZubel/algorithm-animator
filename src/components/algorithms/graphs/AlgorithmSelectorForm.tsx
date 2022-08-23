@@ -3,14 +3,15 @@ import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, } from '@m
 function AlgorithmSelectorForm(props: {
     value: string, 
     items: string[], 
-    setAlgorithm: (arg0:any) => void
+    setAlgorithm: (arg0:any) => void,
+    isRunning: boolean,
     }) {
     return (
         <FormControl>
             <FormLabel id="algorithms-group-label">Algorithms</FormLabel>
             <RadioGroup
             aria-labelledby="algorithms-group-label"
-            defaultValue={props.value}
+            defaultValue={props.items[0]}
             name="radio-buttons-group"
         >
             {props.items.map(alg => {
@@ -18,7 +19,8 @@ function AlgorithmSelectorForm(props: {
                     key={alg} 
                     value={alg} 
                     control={<Radio onChange={props.setAlgorithm} value={alg}/>} 
-                    label={alg} />
+                    label={alg}
+                    disabled={props.isRunning} />
             })}
             </RadioGroup>
         </FormControl>

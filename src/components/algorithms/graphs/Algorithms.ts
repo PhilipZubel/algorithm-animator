@@ -1,4 +1,4 @@
-import {Graph, Node} from './interfaces'
+import {Graph, Node} from './Interfaces'
 import {COLORS} from './InitialGraph'
 
 interface SearchEdge {
