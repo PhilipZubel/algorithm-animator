@@ -1,6 +1,5 @@
-import {Graph} from './interfaces'
+import {Graph, Node} from './interfaces'
 import {COLORS} from './InitialGraph'
-import { DefaultDeserializer } from 'v8';
 
 interface SearchEdge {
     from: number,
@@ -33,7 +32,18 @@ class BreadthFirstTraversal {
         this.upcommingNodes = [];
         this.events = []
         this.eventTime = 0;
+        this.setup(graph.nodes)
         this.addUpcommingdNode(start);
+        this.eventTime++;
+    }
+
+    setup(nodes: Node[]):void {
+        nodes.map(n => n.id)
+            .forEach(id => this.events.push({
+                id: id,
+                color: COLORS.default,
+                time: this.eventTime,
+            }))
         this.eventTime++;
     }
 
@@ -91,15 +101,14 @@ const breadthFirstTraversal = (graph: Graph, startingEdge: number) => {
     const bft = new BreadthFirstTraversal(graph, startingEdge);
     while(!bft.isSearchDone()){ 
         bft.addEvents();
-        // bft.printNodes()
     }
     return bft.getAllEvents();
 }
 
 class DepthFirstSearch {
     private edges: SearchEdge[];
-    visitedNodes: number[];
-    upcommingNodes: number[];
+    private visitedNodes: number[];
+    private upcommingNodes: number[];
     
     private events: Event[];
     private eventTime: number;
@@ -115,7 +124,18 @@ class DepthFirstSearch {
         this.upcommingNodes = [];
         this.events = [];
         this.eventTime = 0;
+        this.setup(graph.nodes)
         this.addUpcommingdNode(start);
+        this.eventTime++;
+    }
+
+    setup(nodes: Node[]):void {
+        nodes.map(n => n.id)
+            .forEach(id => this.events.push({
+                id: id,
+                color: COLORS.default,
+                time: this.eventTime,
+            }))
         this.eventTime++;
     }
 

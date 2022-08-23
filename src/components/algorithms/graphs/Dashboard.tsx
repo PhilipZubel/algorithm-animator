@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Graph from "react-graph-vis";
 
 
@@ -31,21 +31,19 @@ const Dashboard = (props:{graph:any, graphKey:string}) => {
     },
   };
 
-  
   const [options, setOptions] = useState(options2);
 
-
-  const events = {
-    select: function(event:any) {
-      var { nodes, edges } = event;
-    }
-  };
+  // const events = {
+  //   select: function(event:any) {
+  //     var { nodes, edges } = event;
+  //   }
+  // };
   return (
     <Graph
       key={props.graphKey}
       graph={props.graph}
       options={options}
-      events={events}
+      // events={events}
       getNetwork={(network:any) => {
         console.log(network)
         //  if you want access to vis.js network api you can set the state in a parent component using this property

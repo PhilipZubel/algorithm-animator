@@ -1,47 +1,69 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
 import {Node} from './interfaces'
 
 
 const AddEdgeForm = (props: {
-    nodes:Node[], newEdgeNodes:number[], 
+    nodes:Node[], 
+    newEdgeNodes:number[], 
     setNewEdgeNodes: (arg0: any) => void, 
-    handleChangeEdgeNodes : (event: SelectChangeEvent<number[]>) => void,
+    handleChangeEdgeNodes : (idx: number, nodeId: number) => void,
     }) => {
+
+    const handleChangeEdgeFrom = (event: SelectChangeEvent) => {
+        const id = parseInt(event.target.value);
+        console.log(id)
+        props.handleChangeEdgeNodes(0, id);
+    }
+    
+    const handleChangeEdgeTo = (event: SelectChangeEvent) => {
+        const id = parseInt(event.target.value);
+        props.handleChangeEdgeNodes(1, id);
+    }
+    
 
     return (
     <>
-        <FormControl sx={{width: 210}} size="small">
-        <InputLabel id="demo-multiple-chip-label">Add Edge</InputLabel>
+        <FormControl sx={{width: 160, mb: 1}} size="small">
+        <InputLabel id="edge-from-select-label" >Edge From</InputLabel>
         <Select
-            labelId="demo-multiple-chip-label"
-            id="demo-multiple-chip"
-            multiple
-            value={props.newEdgeNodes}
-            onChange={props.handleChangeEdgeNodes}
-            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-            renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((value) => (
-                <Chip key={value} label={`Node ${value}`} />
-                ))}
-            </Box>
-            )}
+            labelId="edge-from-select-label"
+            id="edge-from-select"
+            value={props.newEdgeNodes[0] === 0 ? "" : props.newEdgeNodes[0].toString()}
+            label="From"
+            onChange={handleChangeEdgeFrom}
         >
-            {props.nodes.map((node) => (
+            {props.nodes.map(node => 
             <MenuItem
                 key={node.id}
                 value={node.id}
             >
             {node.label}
-            </MenuItem>
-            ))}
+            </MenuItem>)
+            }
+
+        </Select>
+        </FormControl>
+        <FormControl sx={{width: 160, mb: 1}} size="small">
+        <InputLabel id="edge-to-select-label" >Edge To</InputLabel>
+        <Select
+            labelId="edge-to-select-label"
+            id="edge-to-select"
+            value={props.newEdgeNodes[1] === 0 ? "" : props.newEdgeNodes[1].toString()}
+            label="To"
+            onChange={handleChangeEdgeTo}
+        >
+            {props.nodes.map(node => 
+            <MenuItem
+                key={node.id}
+                value={node.id}
+            >
+            {node.label}
+            </MenuItem>)
+            }
+
         </Select>
         </FormControl>
     </>

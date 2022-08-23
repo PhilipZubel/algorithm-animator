@@ -1,5 +1,4 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import React, {useState} from 'react'
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import {Edge} from './interfaces'
 
 const DeleteEdgeForm = (props: {
@@ -11,7 +10,7 @@ const DeleteEdgeForm = (props: {
     let value = props.edgeRemoved.from ?`${props.edgeRemoved.from}-${props.edgeRemoved.to}`:''
 
     return (
-        <FormControl sx={{width: 120}} size="small">
+        <FormControl sx={{width: 160, mb:1}} size="small">
             <InputLabel id="delete-edge-label">Delete Edge</InputLabel>
             <Select
                 labelId="delete-edge-label"
