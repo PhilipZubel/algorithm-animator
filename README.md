@@ -3,6 +3,8 @@
 
 Allows visualizing sorting and graphing algorithms.
 
+View project here 👉 [Link](https://philipzubel.github.io/algorithm-animator/)
+
 ### Sorting Algorithms:
 - Merge Sort
 - Quick Sort
