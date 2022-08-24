@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/%7Balgorithm-animator%7D/static/css/main.0c05ef84.css",
+    "main.js": "/%7Balgorithm-animator%7D/static/js/main.3ebabf18.js",
+    "static/js/787.ed4044f0.chunk.js": "/%7Balgorithm-animator%7D/static/js/787.ed4044f0.chunk.js",
+    "static/media/graph.png": "/%7Balgorithm-animator%7D/static/media/graph.171a2644ea2b39bc15a2.png",
+    "static/media/sort.png": "/%7Balgorithm-animator%7D/static/media/sort.4f58cd3147b8541e877c.png",
+    "index.html": "/%7Balgorithm-animator%7D/index.html",
+    "main.0c05ef84.css.map": "/%7Balgorithm-animator%7D/static/css/main.0c05ef84.css.map",
+    "main.3ebabf18.js.map": "/%7Balgorithm-animator%7D/static/js/main.3ebabf18.js.map",
+    "787.ed4044f0.chunk.js.map": "/%7Balgorithm-animator%7D/static/js/787.ed4044f0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0c05ef84.css",
+    "static/js/main.3ebabf18.js"
+  ]
+}
