@@ -4,7 +4,6 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {Node} from './Interfaces'
 
-
 const AddEdgeForm = (props: {
     nodes:Node[], 
     newEdgeNodes:number[], 
