@@ -14,6 +14,9 @@ Allows visualizing sorting and graphing algorithms.
 - Breadth First Traversal
 - Depth First Search
 
+![plot](src/imgs/sort.png)
+![plot](src/imgs/graph.png)
+
 ## Technologies
 
 This project was created using React and Typescript. [Jest](https://jestjs.io/) and [RTL](https://testing-library.com/docs/react-testing-library/intro/) were used for unit tests.
