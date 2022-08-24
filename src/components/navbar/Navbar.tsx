@@ -27,7 +27,6 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
-
   const id = "navbar";
   return (
     <AppBar position="static" id={id} data-testid={id}>

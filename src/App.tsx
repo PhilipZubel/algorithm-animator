@@ -9,7 +9,7 @@ import {
 import Navbar from './components/navbar/Navbar';
 import SortingAlgorithms from './components/algorithms/sorts/SortingAlgorithms';
 import ErrorPage from './components/error/ErrorPage';
-import TextAlgorithms from './components/algorithms/texts/TextAlgorithms';
+import Home from './components/Home';
 import { createTheme } from '@mui/material/styles';
 import { green, indigo } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
@@ -33,7 +33,7 @@ const App = () => {
       <Routes>
         <Route path="/sorts" element={<SortingAlgorithms />} />
         <Route path="/graphs" element={<GraphingAlgorithms/>} />
-        <Route path="/text" element={<TextAlgorithms />} />
+        <Route path="/" element={<Home/>} />
         <Route path="*" element={<ErrorPage />} />
 
       </Routes>
