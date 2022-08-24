@@ -1,4 +1,4 @@
-# Algorithm Animator
+# Algorithms Animator
 
 
 Allows visualizing sorting and graphing algorithms.
